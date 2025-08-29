@@ -66,8 +66,10 @@ public class FlutterVideoInfoPlugin implements FlutterPlugin, MethodCallHandler 
             dateString = getData(MediaMetadataRetriever.METADATA_KEY_DATE, mediaRetriever);
             try {
                 SimpleDateFormat readFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss.SSS", Locale.getDefault());
+                readFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // 解析时用 UTC
                 Date date = readFormat.parse(dateString);
                 SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                outFormat.setTimeZone(TimeZone.getDefault()); // 格式化时用本地时区
                 assert date != null;
                 dateString = outFormat.format(date);
             } catch (Exception e) {
